@@ -20,10 +20,10 @@ let pollObj={
 app.use("/", express.static(path.join(__dirname, "dist/chart"))); //check
 
 io.on("connection", socket => { //for each new connection respond with a poll object
-    io.emit("newConnection", pollObj);//broadcast obj
+    io.emit("newConnection", pollObj);//broadcast obj to client
 
     //receives option from client side and increments count
-    socket.on('sendPollObj',function(data){
+    socket.on('sendPollObj',(data)=>{
         console.log(data);
         
         let result=pollObj.options[data].count++;

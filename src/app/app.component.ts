@@ -40,14 +40,14 @@ export class AppComponent {
     monkeyPatchChartJsLegend();
   }
   ngOnInit() {
-    this.socket.on('newConnection', function(data){ //receive obj and will broadcast to all clients
+    this.socket.on('newConnection', (data)=>{ //receive obj and will broadcast to all clients
      this.pollObj=data;    
-      this.Label.push(this.pollObj.text);
-      this.SingelDataSet.push(this.pollObj.count);
+      this.pieChartLabels.push(this.pollObj.text);
+      this.pieChartData.push(this.pollObj.count);
     });
-    this.socket.on("receiveIncrementedCounter",function(data){//push count that has been incremented to array
-      this.Label.push(this.pollObj.text);
-      this.SingelDataSet.push(this.pollObj.count);
+    this.socket.on("receiveIncrementedCounter",(data)=>{//push count that has been incremented to array
+      this.pieChartLabels.push(this.pollObj.text);
+      this.pieChartData.push(this.pollObj.count);
     })
   }
 
