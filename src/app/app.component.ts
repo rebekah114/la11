@@ -3,7 +3,6 @@ import { ChartType, ChartOptions } from 'chart.js';
 import * as io from "socket.io-client";
 import { SingleDataSet, Label, monkeyPatchChartJsLegend, monkeyPatchChartJsTooltip } from 'ng2-charts';
 
-
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
@@ -23,6 +22,7 @@ export class AppComponent {
    count=0;
    selectOpt;
    result;
+   options=[];
 
   public pieChartOptions: ChartOptions = {
     responsive: true,
@@ -34,7 +34,6 @@ export class AppComponent {
   public pieChartLegend = true;
   public pieChartPlugins = [];
 
-
   constructor() {
     this.socket=io.connect("http://115.70.113.86:8080");
     monkeyPatchChartJsTooltip();
@@ -42,19 +41,20 @@ export class AppComponent {
   }
   ngOnInit() {
     this.socket.on('newConnection', function(data){ //receive obj and will broadcast to all clients
-      // this.pollObj=data;    
-      this.Label.push(data.text);
-      this.SingelDataSet.push(data.count);
+     this.pollObj=data;    
+      this.Label.push(this.pollObj.text);
+      this.SingelDataSet.push(this.pollObj.count);
     });
-    this.socket.on("receiveIncrementedCounter",function(data){//push incremented count option to arrays
-      this.Label.push(data.text);
-      this.SingelDataSet.push(data.count);
+    this.socket.on("receiveIncrementedCounter",function(data){//push count that has been incremented to array
+      this.Label.push(this.pollObj.text);
+      this.SingelDataSet.push(this.pollObj.count);
     })
   }
 
   sendVote() { //send option selected back to server side to increment count
     console.log(this.selectOpt);
-    this.pollOption={option: this.selectOpt};
+
+    this.pollOption={option: this.selectOpt.options};//added options
     this.socket.emit("sendBackPollObj", this.pollOption);//send option back to server side
   }
 }
