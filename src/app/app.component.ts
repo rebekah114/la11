@@ -44,6 +44,7 @@ export class AppComponent {
      this.pollObj=data;    
       this.pieChartLabels.push(this.pollObj.text);
       this.pieChartData.push(this.pollObj.count);
+      this.options.push(this.pollObj.options);
     });
     this.socket.on("receiveIncrementedCounter",(data)=>{//push count that has been incremented to array
       this.pieChartLabels.push(this.pollObj.text);

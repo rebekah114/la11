@@ -1,5 +1,5 @@
 
-<h1>{{pollObj.question}}</h1>
+<!-- <h1>{{pollObj.question}}</h1> -->
 
 <div class="form-check" *ngFor="let option of options">
   <input class="form-check-input" type="radio"  value={{option.value}} name={{option.text}} [(ngModel)]="selectOpt">
